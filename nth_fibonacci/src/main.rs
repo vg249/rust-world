@@ -52,6 +52,7 @@ fn fibonacci(n: u32) -> u32 {
     }
 }
 
+// Dynamic Programming
 fn dyn_fibonacci(n: u32) -> u32 {
     let mut fibonacci_nums = vec![0; (n+2) as usize];
     
