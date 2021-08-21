@@ -20,20 +20,24 @@ fn main() {
 
     println!("Enter the computation type:\n\
              0 for recursive\n\
-             1 for dynamic");
+             1 for dynamic\n\
+             2 for dynamic without array");
+    
     io::stdin()
         .read_line(&mut computation_type)
         .expect("Unable to get computation_type");
+    
+    let computation_type: u32 = computation_type
+        .trim()
+        .parse()
+        .expect("Invalid computation type");
 
-
-    let nth_fibonacci;
-
-    if computation_type.trim() == "0" {
-        nth_fibonacci = fibonacci(n);
-    }
-    else {
-        nth_fibonacci = dyn_fibonacci(n);
-    }
+    let nth_fibonacci = match computation_type {
+        0 => fibonacci(n),
+        1 => dyn_fibonacci(n),
+        2 => dyn_fibonacci_no_array(n),
+        _ => 0,
+    };
 
     println!("Nth Fibonacci: {}", nth_fibonacci);
 
@@ -66,3 +70,20 @@ fn dyn_fibonacci(n: u32) -> u32 {
     
     fibonacci_nums[n as usize]
 }
+
+fn dyn_fibonacci_no_array(n: u32) -> u32 {
+
+    let mut one_before = 0;
+    let mut one_before_one_before = 1;
+
+    let mut nth_fibonacci = 0;
+
+    for _ in 1..(n+1) {
+        nth_fibonacci = one_before + one_before_one_before;
+        one_before_one_before = one_before;
+        one_before = nth_fibonacci;
+    }
+    
+    nth_fibonacci
+}
+
